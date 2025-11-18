@@ -1,0 +1,17 @@
+id,created_at,meal_name,guest_name,serves,kind_of_dish,user_id
+1,2025-10-23 02:36:51.192653+00,Meatloaf,Bill,8,entree,
+2,2025-10-23 02:37:15.12898+00,Mac and Cheese,Jill,9,entree,
+3,2025-10-23 02:37:41.200154+00,Garden Salad,Bob,12,side,
+5,2025-10-23 04:43:23.914484+00,Roast Duck,James,12,entree,
+6,2025-10-23 04:50:13.25374+00,Roast Duck,James,12,entree,
+7,2025-10-23 04:55:29.156915+00,Roast Duck,James,12,entree,
+8,2025-10-23 04:59:44.764966+00,Popcorn,Gary,20,snack,
+9,2025-10-25 00:22:20.15836+00,Chef Salad,Bob,200,side,
+10,2025-10-29 22:59:33.823095+00,Roast Turkey,,,,
+11,2025-10-30 00:53:58.237399+00,Roast Lamb,Robert,22,entree,
+12,2025-10-30 01:16:46.432062+00,Roast Pork,Billy Bob,26,entree,
+13,2025-10-30 01:19:12.688005+00,Roast Duck,Sammy,7,entree,
+14,2025-10-30 01:20:47.514726+00,Potato Salad,Billy Bob,12,side,
+15,2025-11-06 19:54:56.937768+00,Roast Duck,Robert,4,entree,decf1358-06c1-485d-9c66-15601e9b9284
+16,2025-11-06 19:56:08.468091+00,Chef Salad,Robert,3,side,decf1358-06c1-485d-9c66-15601e9b9284
+18,2025-11-07 02:04:51.412227+00,Roast Duck Dinner,Robert,12,entree,decf1358-06c1-485d-9c66-15601e9b9284
