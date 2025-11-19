@@ -1,6 +1,9 @@
 // src/index.js
 import express from 'express';
 
+// optional - add routes to modularize code
+import iceCreamRoute from './routes/ice-cream.js';
+
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -8,6 +11,11 @@ app.use(express.static('public'));
 // Middleware to parse JSON request bodies
 // This transforms the plain text JSON string into a JavaScript object
 app.use(express.json());
+
+// optional - add routes to modularize code
+// example: /ice-cream/favorites
+app.use("/ice-cream", iceCreamRoute);
+
 
 // seed our fake db with 3 games
 let gamesStorage = [
