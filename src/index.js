@@ -4,6 +4,10 @@ import express from 'express';
 // optional - add routes to modularize code
 import iceCreamRoute from './routes/ice-cream.js';
 
+// optional - import our fake data from a separate file.
+// (instead of creating a variable for gamesStorage)
+// import gamesStorage from './games-db.js';
+
 const app = express();
 const port = process.env.PORT || 3000;
 
