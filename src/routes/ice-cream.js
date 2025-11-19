@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import iceCreamStorage from "../ice-cream-db";
+import iceCreamStorage from "../ice-cream-db.js";
 
 const iceCreamRoute = Router();
 
@@ -19,7 +19,7 @@ iceCreamRoute.get("/least-favorite", (req, res) => {
     });
 })
 
-iceCreamRoute("/", (req, res) => {
+iceCreamRoute.get("/", (req, res) => {
     res.json(iceCreamStorage);
 })
 

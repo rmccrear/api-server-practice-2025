@@ -18,7 +18,7 @@ app.use(express.json());
 
 // optional - add routes to modularize code
 // example: /ice-cream/favorites
-app.use("/ice-cream", iceCreamRoute);
+app.use("/api/ice-cream", iceCreamRoute);
 
 
 // seed our fake db with 3 games
