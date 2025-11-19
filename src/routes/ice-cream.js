@@ -1,5 +1,7 @@
 import { Router } from "express";
 
+import iceCreamStorage from "../ice-cream-db";
+
 const iceCreamRoute = Router();
 
 
@@ -15,6 +17,10 @@ iceCreamRoute.get("/least-favorite", (req, res) => {
         name: "Sour Apple",
         calories: 200
     });
+})
+
+iceCreamRoute("/", (req, res) => {
+    res.json(iceCreamStorage);
 })
 
 export default iceCreamRoute;
