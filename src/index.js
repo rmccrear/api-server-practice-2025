@@ -1,6 +1,12 @@
 // src/index.js
 import express from 'express';
 
+import cors from "cors";
+
+import { randomUUID } from 'node:crypto';
+
+import { readFile } from 'node:fs';
+
 // optional - add routes to modularize code
 import iceCreamRoute from './routes/ice-cream.js';
 
@@ -10,6 +16,8 @@ import iceCreamRoute from './routes/ice-cream.js';
 
 const app = express();
 const port = process.env.PORT || 3000;
+
+app.use(cors())
 
 app.use(express.static('public'));
 // Middleware to parse JSON request bodies
@@ -23,21 +31,40 @@ app.use("/api/ice-cream", iceCreamRoute);
 
 // seed our fake db with 3 games
 let gamesStorage = [
-    { name: "Minecraft", cost: 60 },
-    { name: "World of Warcraft", cost: 50 },
-    { name: "World of Warships", cost: 20 }
+    { id: "abcdefg", name: "Minecraft", cost: 30, vendors: ["Toys R Us", "Amazon", "Microsoft Store"] },
+    { id: "hijklmnop", name: "World of Warcraft II", cost: 50, vendors: ["Steam", "Amazon", "Game Stop"] },
+    { id: "qrstuvwxyz", name: "World of Warships", cost: 20, vendors: ["Steam", "Amazon", "Game Stop"] }
 ];
 
 // Routes
 app.get('/', (req, res) => {
-    res.send('<h1>Hello Express!</h1><p>Your server is working!</p>');
+    res.type("text/plain");
+    res.json('<h1>Hello Express!</h1><p>Your server is working!</p>');
 });
+
+app.get("/get-the-file", (req, res) => {
+    // readFile('./public/hello.css', (err, data) => {
+    readFile('./public/hot-reload.png', (err, data) => {
+        if (err) throw err;
+        // console.log(data);
+        // const dataBuffer = Buffer.from(data)
+        // const utf8Decoder = new TextDecoder('UTF-8')
+        // const text = utf8Decoder.decode(dataBuffer);
+        // console.log(text) // Obst;Person;
+        // res.type("text/css")
+        // res.send(text);
+        res.type("text/plain")
+        res.send(data)
+    });
+})
+
 
 // Our own API Server
 app.get('/pika', (req, res) => {
     res.json({
         name: "pikapika",
         weight: 20,
+        height: 55,
         power: "lightening"
     });
 });
@@ -57,48 +84,80 @@ app.get('/fav-poke', (req, res) => {
     res.json(poke);
 });
 
-
-
 // GAMES API
+// "REST" API
 
-app.get("/api/games", (req, res) => {
+app.get("/api/v1/games", (req, res) => {
     res.json(gamesStorage)
 });
 
-app.post("/api/games", (req, res) => {
+// get by "id" where the id is just the index.
+app.get("/api/v1/games/:id", (req, res) => {
+    // using object destructuring...
+    // const {id} = req.params;
+    // using dot notation...
+    const id = req.params.id;
+
+
+
+    // Using the reducer pattern...
+    // let game = null;
+    // for(let i=0; i<gamesStorage.length; i++) {
+    //     if(gamesStorage[i].id === id) {
+    //         game = gamesStorage[i];
+    //     }
+    // }
+    
+    // Using the array method (convenience function)...
+    const game = gamesStorage.find((g) => g.id === id);
+    
+    res.json(game);
+});
+
+app.delete("/api/v1/games/:id", (req, res) => {
+    console.log(req.params.id);
+    const id = req.params.id;
+
+    // Using the filter pattern...
+    // const temp = [];
+    // for(let i=0; i<gamesStorage.length; i++){
+    //     if( gamesStorage[i].id !== id ) {
+    //         // keep
+    //         temp.push(gamesStorage[i])
+    //     }
+    // }
+    // gamesStorage = temp;
+
+    // Using the array method (convenience function)...
+    gamesStorage = gamesStorage.filter(g => g.id !== id);
+
+    res.status(200);
+    res.json();
+})
+
+app.post("/api/v1/games", (req, res) => {
     console.log(req.body);
 
+    // create new game from user input (safer to avoid extra params) 
+    // const newGame = {
+    //     name: req.body.name,
+    //     price: req.body.price
+    // }
+    const newGame = req.body;
 
-    if(req.body === undefined) {
-        res.status(400);
-        return res.json({
-            error: {
-                message: "no body in request"
-            }
-        })
-    }
-    if(req.body.name === undefined){
-        res.status(400);
-        return res.json({
-            error: {
-                message: "no name supplied"
-            }
-        });
-    }
-
-    // create new game from user input
-    const newGame = {
-        name: req.body.name,
-        price: req.body.price
-    }
-
-    // add new game to our list
     console.log(newGame);
-    gamesStorage.push(newGame)
+    
+    // add new game to our list
+    // const nextId = gamesStorage.length + 1;
+    const nextId = randomUUID();   // make a brand new id...
+    // newGame.id = nextId; // Using dot notation to mutate the object
+    const newGameWithId = { ...newGame, id: nextId } // using the spread operator to create a new object based on the old one.
+    
+    gamesStorage.push(newGameWithId)
 
     // inform user that we have been successful
     res.status(201);
-    res.json(newGame);
+    res.json(newGameWithId);
 });
 
 app.listen(port, () => {
